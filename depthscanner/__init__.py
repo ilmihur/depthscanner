@@ -1,3 +1,3 @@
-def scan():
-    return (u'Wenn ist das Nunst\u00fcck git und Slotermeyer? Ja! ... '
-            u'Beiherhund das Oder die Flipperwaldt gersput.')
+from .scan import scan
+from .scan import test
+#from .scan import exportply
