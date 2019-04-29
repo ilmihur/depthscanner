@@ -1,42 +1,40 @@
-def test():
-    x = 5
-    return x
+# First import the libraries
+import numpy as np
+import pyrealsense2 as pyrs
 
 def scan(): #### and set all one tab forward
 
-    ## License: Apache 2.0. See LICENSE file in root directory.
-    ## Copyright(c) 2017 Intel Corporation. All Rights Reserved.
-
-    #####################################################
-    ##                  Export to PLY                  ##
-    #####################################################
-
-    # First import the library
-
-    import pyrealsense2 as rs
-
+    # Declare pointcloud object, for calculating pointclouds and texture mappings
+    pc = pyrs.pointcloud()
+    # We want the points object to be persistent so we can display the last cloud when a frame drops
+    points = pyrs.points()
     # Declare RealSense pipeline, encapsulating the actual device and sensors
-    pipe = rs.pipeline()
+    pipe = pyrs.pipeline()
     #Start streaming with default recommended configuration
-    pipe.start()
+    profile = pipe.start()
+    # to figgure out the depth scale, normally 0.001
+    #depth_sensor = profile.get_device().first_depth_sensor()
+    #print depth_sensor.get_depth_scale()
 
     try:
         # Wait for the next set of frames from the camera
         frames = pipe.wait_for_frames()
-
-        # Fetch color and depth frames
+        # Fetch depth frames
         depth = frames.get_depth_frame()
-        color = frames.get_color_frame()
-
-        ldist = []
-        for y in range(480):
-            for x in range(640):
-                dist = depth.get_distance(x, y)
-                ldist.append(dist)
-
-        #print(len(ldist))
-
-        return ldist
         
+        points = pc.calculate(depth)
+
+        pts = np.asanyarray(points.get_vertices())
+        
+        # values to return to rhino
+        return pts
+          
+        # convert to numpy array	
+        #npy_vtx = np.zeros((len(vtx), 3), float)
+        #for i in range(len(vtx)):
+        #    npy_vtx[i][0] = np.float(vtx[i][0])
+        #    npy_vtx[i][1] = np.float(vtx[i][1])
+        #    npy_vtx[i][2] = np.float(vtx[i][2])
+
     finally:
         pipe.stop()
