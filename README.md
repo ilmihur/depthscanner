@@ -42,6 +42,6 @@ Install the package you just downloaded in your conda environment:
 Now fetch the grasshopper file and scan away :)
 
 
-### Notes to self:
+## Notes to self:
 For more info on package creation and metadata see:
 https://python-packaging.readthedocs.io/en/latest/minimal.html
