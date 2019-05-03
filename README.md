@@ -19,7 +19,7 @@ Ilmar Hurkxkens <<hurkxkens@arch.ethz.ch>> [@ilmihur](https://github.com/ilmihur
 - open Anaconda Prompt as administrator
 - create a conda environment with python 2.7: 
 
-  $ conda create -n scanner python=2.7
+    $ conda create -n scanner python=2.7
   
 - change to the newly created environment: `conda activate scanner`
 - install compas: `conda install COMPAS`
