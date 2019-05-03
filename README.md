@@ -19,7 +19,7 @@ Ilmar Hurkxkens <<hurkxkens@arch.ethz.ch>> [@ilmihur](https://github.com/ilmihur
 
 The recommended way to install **depthscanner** is to use [Anaconda/conda](https://conda.io/docs/). Once you have Anaconda installed, open `Anaconda Prompt` as administrator and follow the steps below.
 
-Create a conda environment with python 2.7: 
+Create a new conda environment using python 2.7: 
 
     $ conda create -n scanner python=2.7
     
@@ -27,19 +27,19 @@ Change to the newly created environment:
 
     $ conda activate scanner
     
-Install compas: 
+Install COMPAS (note: numpy and scipy will be automatically installed as well): 
 
     $ conda install COMPAS
     
-Install pyrealsense2: 
+Install `pyrealsense2` to interface with the Intel Realsense Depth Camera: 
     
     $ pip install pyrealsense2
     
-Clone the depthscanner repository from github: 
+Clone the depthscanner repository from github to your local drive: 
     
     $ git clone https://github.com/ilmihur/depthscanner.git
     
-Install the package you just downloaded on your computer: 
+Install the package you just downloaded in your conda environment: 
     
     $ pip install %UserProfile%/depthscanner
     
