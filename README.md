@@ -15,28 +15,19 @@ Ilmar Hurkxkens <<hurkxkens@arch.ethz.ch>> [@ilmihur](https://github.com/ilmihur
 
 The recommended way to install **depthscanner** is to use [Anaconda/conda](https://conda.io/docs/). Once you have Anaconda installed, open `Anaconda Prompt` as administrator and follow the steps below.
 
-Create a new conda environment using python 2.7: 
+Create a new conda environment using python 2.7 and make it active: 
 
     $ conda create -n scanner python=2.7
-    
-Change to the newly created environment: 
-
     $ conda activate scanner
     
-Install COMPAS (note: numpy and scipy will be automatically installed as well): 
+Install `COMPAS` and the `pyrealsense2` libraries to interface with the Intel Realsense Depth Camera (note: numpy and scipy will be automatically installed as well): 
 
     $ conda install COMPAS
-    
-Install `pyrealsense2` to interface with the Intel Realsense Depth Camera: 
-    
     $ pip install pyrealsense2
     
-Clone the depthscanner repository from github to your local drive: 
+Clone the depthscanner repository from github to your local drive, and install the package in your active conda environment:
     
-    $ git clone https://github.com/ilmihur/depthscanner.git
-    
-Install the package you just downloaded in your conda environment: 
-    
+    $ git clone https://github.com/ilmihur/depthscanner.git  
     $ pip install %UserProfile%/depthscanner
     
 Now fetch the grasshopper file and scan away :)
