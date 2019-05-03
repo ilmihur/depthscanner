@@ -32,9 +32,10 @@ Clone the depthscanner repository from github to your local drive, and install t
     
 To verify your setup, start Python from the command line and run the following (when nothing happens the installation is successful):
 
->>> import compas
->>> import pyrealsense2
->>> import depthscanner
+    $ python
+    >>> import compas
+    >>> import pyrealsense2
+    >>> import depthscanner
 
 Now fetch the grasshopper file and scan away :)
 
