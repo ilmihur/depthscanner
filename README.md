@@ -1,5 +1,5 @@
 # Depthscanner
-Collects a PointCloud from the Intel Realsense 3D scanner in Rhino Grasshopper.
+Import a PointCloud from the Intel Realsense Depth Camera's into Rhino Grasshopper.
 
 ## Dependencies
 - compas
