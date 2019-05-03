@@ -13,12 +13,14 @@ Ilmar Hurkxkens <<hurkxkens@arch.ethz.ch>> [@ilmihur](https://github.com/ilmihur
 
 ## Getting Started
 
+To be able to connect to the Depth Camera, you have to install the open source [Intel® RealSense™ SDK 2.0](https://www.intelrealsense.com/developers/)
+
 The recommended way to install **depthscanner** is to use [Anaconda/conda](https://conda.io/docs/). Once you have Anaconda installed, open `Anaconda Prompt` as administrator and follow the steps below.
 
 Create a new conda environment using python 2.7 and make it active: 
 
-    $ conda create -n scanner python=2.7
-    $ conda activate scanner
+    $ conda create -n my_env python=2.7
+    $ conda activate my_env
     
 Now install `COMPAS` and the `pyrealsense2` libraries to interface with the Intel Realsense Depth Camera (note: numpy and scipy will be automatically installed as well): 
 
