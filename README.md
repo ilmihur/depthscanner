@@ -20,7 +20,7 @@ Create a new conda environment using python 2.7 and make it active:
     $ conda create -n scanner python=2.7
     $ conda activate scanner
     
-Install `COMPAS` and the `pyrealsense2` libraries to interface with the Intel Realsense Depth Camera (note: numpy and scipy will be automatically installed as well): 
+Now install `COMPAS` and the `pyrealsense2` libraries to interface with the Intel Realsense Depth Camera (note: numpy and scipy will be automatically installed as well): 
 
     $ conda install COMPAS
     $ pip install pyrealsense2
