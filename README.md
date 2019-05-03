@@ -7,10 +7,6 @@ Import a PointCloud from an Intel Realsense Depth Camera into Rhino Grasshopper.
 - numpy
 - scipy
 
-## Notes to self:
-for more info on package information and metadata see:
-https://python-packaging.readthedocs.io/en/latest/minimal.html
-
 ## Author
 
 Ilmar Hurkxkens <<hurkxkens@arch.ethz.ch>> [@ilmihur](https://github.com/ilmihur/)
@@ -44,3 +40,8 @@ Install the package you just downloaded in your conda environment:
     $ pip install %UserProfile%/depthscanner
     
 Now fetch the grasshopper file and scan away :)
+
+
+### Notes to self:
+For more info on package creation and metadata see:
+https://python-packaging.readthedocs.io/en/latest/minimal.html
