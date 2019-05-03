@@ -17,13 +17,11 @@ To be able to connect to the Depth Camera, you have to install the Intel Realsen
 
 - [Intel® RealSense™ SDK 2.0](https://www.intelrealsense.com/developers/)
 
-The recommended way to install `depthscanner` is to use Anaconda:
+The recommended way to install the depencies for the `depthscanner` library is to use Anaconda:
 
 - [Anaconda/conda](https://conda.io/docs/)
 
-Once you have Anaconda installed, open `Anaconda Prompt` as administrator and follow the steps below.
-
-Create a new conda environment using python 2.7 and make it active: 
+Once you have Anaconda installed, open `Anaconda Prompt` as administrator. First, create a new conda environment using python 2.7 and make it active: 
 
     $ conda create -n my_env python=2.7
     $ conda activate my_env
