@@ -15,8 +15,10 @@ https://python-packaging.readthedocs.io/en/latest/minimal.html
 
 Ilmar Hurkxkens <<hurkxkens@arch.ethz.ch>> [@ilmihur](https://github.com/ilmihur/)
 
-## Installation:
-- open Anaconda Prompt as administrator
+## Getting Started
+
+The recommended way to install **depthscanner** is to use [Anaconda/conda](https://conda.io/docs/). Open Anaconda Prompt as administrator and follow the steps below.
+
 Create a conda environment with python 2.7: 
 
     $ conda create -n scanner python=2.7
