@@ -26,6 +26,10 @@ def scan(): #### and set all one tab forward
 
         pts = np.asanyarray(points.get_vertices())
         
+        # use: from scipy.interpolate import griddata
+        # https://earthscience.stackexchage.com/questions/12057/how-to-interpolate-scattered-data-to-a-regular-grid-in-python/
+        # use a mask to mask-out the outline..
+        
         # values to return to rhino
         return pts
           
