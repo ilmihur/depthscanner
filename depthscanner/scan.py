@@ -3,6 +3,14 @@ import pyrealsense2 as pyrs
 import numpy as np
 from scipy.interpolate import griddata
 
+
+"""
+use pyrealsense2 separate from compas:
+https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python  > building from source > windows > point 6
+use this: https://pypi.org/project/ctypes/
+
+"""
+
 def scangrid(): 
 
     # Declare pointcloud object, for calculating pointclouds and texture mappings
@@ -28,10 +36,32 @@ def scangrid():
         pts = np.asanyarray(points.get_vertices())
         
         # use: from scipy.interpolate import griddata
-        # https://earthscience.stackexchage.com/questions/12057/how-to-interpolate-scattered-data-to-a-regular-grid-in-python/
+        # https://earthscience.stackexchange.com/questions/12057/how-to-interpolate-scattered-data-to-a-regular-grid-in-python
+        #https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.griddata.html
         # use a mask to mask-out the outline..
         
+        
+        
+        ## data coordinates and values
+        #x = np.random.random(100)
+        #y = np.random.random(100)
+        #z = np.random.random(100)
+
+        #target grid to interpolate to
+        xi = yi = np.arange(0,100,1) #this might not be correct
+        xi,yi = np.meshgrid(xi,yi)
+
+        ## set mask
+        #mask = (xi > 0.5) & (xi < 0.6) & (yi > 0.5) & (yi < 0.6)
+
+        # interpolate
+        zi = griddata((x,y),z,(xi,yi),method='linear')
+
+        ## mask out the field
+        #zi[mask] = np.nan
+        
         # values to return to rhino
+        pts = zi
         return pts
           
         # convert to numpy array	
