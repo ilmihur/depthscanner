@@ -25,7 +25,6 @@ Once you have Anaconda installed, open `Anaconda Prompt` as administrator. First
     
 Now install `COMPAS` and the `pyrealsense2` libraries to interface with the Intel Realsense Depth Camera (note: numpy and scipy will be automatically installed as well): 
 
-    $ conda install COMPAS
     $ pip install pyrealsense2
     
 Clone the depthscanner repository from github to your local drive, and install the package in your active conda environment:
