@@ -30,7 +30,7 @@ Now install `COMPAS` and the `pyrealsense2` libraries to interface with the Inte
 Clone the depthscanner repository from github to your local drive, and install the package in your active conda environment:
     
     $ git clone https://github.com/ilmihur/depthscanner.git  
-    $ pip install %UserProfile%/depthscanner
+    $ code\ pip install -e depthscanner
     
 To verify your setup, start Python from the command line and run the following (when nothing happens the installation is successful):
 
