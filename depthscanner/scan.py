@@ -1,17 +1,14 @@
 # First import the libraries
+import compas
 import pyrealsense2 as pyrs
 import numpy as np
 from scipy.interpolate import griddata
 
-
-"""
-use pyrealsense2 separate from compas:
-https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python  > building from source > windows > point 6
-use this: https://pypi.org/project/ctypes/
-
-"""
-
-def scangrid(): 
+def scangrid():
+ 
+    # set the resolution
+    xres = 640
+    yres = 360
 
     # Declare pointcloud object, for calculating pointclouds and texture mappings
     pc = pyrs.pointcloud()
@@ -19,9 +16,14 @@ def scangrid():
     points = pyrs.points()
     # Declare RealSense pipeline, encapsulating the actual device and sensors
     pipe = pyrs.pipeline()
-    #Start streaming with default recommended configuration
-    profile = pipe.start()
-    # to figgure out the depth scale, normally 0.001
+    # Create a config and configure the pipeline to stream
+    config = pyrs.config()
+    #set resolution
+    config.enable_stream(pyrs.stream.depth,  xres, yres, pyrs.format.z16, 30)
+    #Start streaming 
+    profile = pipe.start(config)
+
+    ## to figgure out the depth scale, normally 0.001
     #depth_sensor = profile.get_device().first_depth_sensor()
     #print depth_sensor.get_depth_scale()
 
@@ -30,49 +32,76 @@ def scangrid():
         frames = pipe.wait_for_frames()
         # Fetch depth frames
         depth = frames.get_depth_frame()
-        
+        # calc pointcloud
         points = pc.calculate(depth)
-
+        #w = depth.get_width()
+        #h = depth.get_height()
+        
+        # get point coordinates
         pts = np.asanyarray(points.get_vertices())
+
+        ## take only values that are not zero
+        ptss = []
+        for i in pts:
+            if i[0] != 0:
+                ptss.append(i)
+     
+        ## make x,y,z lists
+        x = []
+        y = []
+        z = []
+        for i in ptss:
+            x.append(i[0])
+            y.append(i[1])
+            z.append(i[2])
         
-        # use: from scipy.interpolate import griddata
-        # https://earthscience.stackexchange.com/questions/12057/how-to-interpolate-scattered-data-to-a-regular-grid-in-python
-        #https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.griddata.html
-        # use a mask to mask-out the outline..
-        
-        
-        
-        ## data coordinates and values
-        #x = np.random.random(100)
-        #y = np.random.random(100)
-        #z = np.random.random(100)
+        #bounding box of scan
+        x_min = -0.64 #min(x)
+        x_max = 0.64 #max(x)
+        y_min = -0.36 #min(y)
+        y_max = 0.36 #max(y)
 
         #target grid to interpolate to
-        xi = yi = np.arange(0,100,1) #this might not be correct
+        xi = np.arange(x_min,x_max,0.002)
+        yi = np.arange(y_min,y_max,0.002)
         xi,yi = np.meshgrid(xi,yi)
+
+        # interpolate
+        zi = griddata((x,y),z,(xi,yi),method='linear')
+    	zi = np.nan_to_num(zi,copy=False)
 
         ## set mask
         #mask = (xi > 0.5) & (xi < 0.6) & (yi > 0.5) & (yi < 0.6)
 
-        # interpolate
-        zi = griddata((x,y),z,(xi,yi),method='linear')
-
         ## mask out the field
         #zi[mask] = np.nan
+
+        ## reformat z data to docofossor (single list of z values)
+        np.flipud(zi)
+        zi *= -1
+        zi = [j for i in zi for j in i]
+        zi = [i * 1000 for i in zi]
+
+        # construct docofossor dimension list
+        nc = xres #len(zi[0]) >>> see target grid in scangrid
+        nr = yres #len(zi) >>> see target grid in scangrid
+        ox = 0
+        oy = 0
+        cx = 1 #1*n
+        cy = 1 #1*n
+        gx = ox
+        gy = oy
+        dim = [nc,nr,ox,oy,cx,cy,0,0,gx,gy]
         
+        # construct df list
+        df = dim + zi
+
         # values to return to rhino
-        pts = zi
-        return pts
-          
-        # convert to numpy array	
-        #npy_vtx = np.zeros((len(vtx), 3), float)
-        #for i in range(len(vtx)):
-        #    npy_vtx[i][0] = np.float(vtx[i][0])
-        #    npy_vtx[i][1] = np.float(vtx[i][1])
-        #    npy_vtx[i][2] = np.float(vtx[i][2])
+        return df
 
     finally:
         pipe.stop()
+
 
 
 def scan(): 
@@ -103,3 +132,7 @@ def scan():
 
     finally:
         pipe.stop()
+
+
+if __name__ == "__main__":
+    s = scangrid()
