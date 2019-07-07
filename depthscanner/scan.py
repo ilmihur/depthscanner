@@ -96,6 +96,9 @@ def dfScan():
         # construct df list
         df = dim + zi
 
+        #trying to send a string to grasshopper instead of a list
+        #df = ' '.join("%.2f" % i for i in df)
+        
         # values to return to rhino
         return df
 
@@ -140,4 +143,4 @@ def pcScan():
 
 
 if __name__ == "__main__":
-    s = pcScan()
+    s = dfScan()
