@@ -4,7 +4,7 @@ import pyrealsense2 as pyrs
 import numpy as np
 from scipy.interpolate import griddata
 
-def scangrid():
+def dfScan():
  
     # set the resolution
     xres = 640
@@ -104,7 +104,7 @@ def scangrid():
 
 
 
-def scan(): 
+def pcScan(): 
 
     # Declare pointcloud object, for calculating pointclouds and texture mappings
     pc = pyrs.pointcloud()
@@ -112,11 +112,8 @@ def scan():
     points = pyrs.points()
     # Declare RealSense pipeline, encapsulating the actual device and sensors
     pipe = pyrs.pipeline()
-    #Start streaming with default recommended configuration
+    #Start streaming 
     profile = pipe.start()
-    # to figgure out the depth scale, normally 0.001
-    #depth_sensor = profile.get_device().first_depth_sensor()
-    #print depth_sensor.get_depth_scale()
 
     try:
         # Wait for the next set of frames from the camera
@@ -127,12 +124,20 @@ def scan():
         points = pc.calculate(depth)
         # get vertices
         pts = np.asanyarray(points.get_vertices())
+        ## take only values that are not zero (removes about 2/3 of the points)
+        ptss = []
+        for pt in pts:
+            if pt[0] != 0:
+                r = [i * 1000 for i in pt] #scale by 1000
+                ptss.append(r)
         #return the list of vertices to rhino
-        return pts
+        print(pts[0])
+        print(ptss[0])
+        return ptss
 
     finally:
         pipe.stop()
 
 
 if __name__ == "__main__":
-    s = scangrid()
+    s = pcScan()

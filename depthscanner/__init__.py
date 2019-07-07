@@ -1,2 +1,2 @@
-from .scan import scangrid
-from .scan import scan
+from .scan import dfScan
+from .scan import pcScan
