@@ -7,8 +7,8 @@ from scipy.interpolate import griddata
 def dfScan():
  
     # set the resolution
-    xres = 640
-    yres = 360
+    xres = 1280
+    yres = 720
 
     # Declare pointcloud object, for calculating pointclouds and texture mappings
     pc = pyrs.pointcloud()
@@ -62,13 +62,13 @@ def dfScan():
         y_max = 0.36 #max(y)
 
         #target grid to interpolate to
-        xi = np.arange(x_min,x_max,0.002)
-        yi = np.arange(y_min,y_max,0.002)
+        xi = np.arange(x_min,x_max,0.001)
+        yi = np.arange(y_min,y_max,0.001)
         xi,yi = np.meshgrid(xi,yi)
 
         # interpolate
-        zi = griddata((x,y),z,(xi,yi),method='linear')
-    	zi = np.nan_to_num(zi,copy=False)
+        zi = griddata((x,y),z,(xi,yi),method='linear', fill_value=0)
+    	#zi = np.nan_to_num(zi,copy=False) #not nessecary anymore
 
         ## set mask
         #mask = (xi > 0.5) & (xi < 0.6) & (yi > 0.5) & (yi < 0.6)
@@ -105,8 +105,6 @@ def dfScan():
     finally:
         pipe.stop()
 
-
-
 def pcScan(): 
 
     # Declare pointcloud object, for calculating pointclouds and texture mappings
@@ -140,7 +138,6 @@ def pcScan():
 
     finally:
         pipe.stop()
-
 
 if __name__ == "__main__":
     s = dfScan()
