@@ -105,8 +105,6 @@ def dfScan():
     finally:
         pipe.stop()
 
-
-
 def pcScan(): 
 
     # Declare pointcloud object, for calculating pointclouds and texture mappings
@@ -140,7 +138,6 @@ def pcScan():
 
     finally:
         pipe.stop()
-
 
 if __name__ == "__main__":
     s = dfScan()
