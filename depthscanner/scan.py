@@ -76,11 +76,12 @@ def dfScan():
             y.append(i[1])
             z.append(i[2])
         print('3', timer()-start)
+        
         #bounding box of scan
-        x_min = -0.64 #min(x)
-        x_max = 0.64 #max(x)
-        y_min = -0.36 #min(y)
-        y_max = 0.36 #max(y)
+        x_min = -0.6 #min(x)
+        x_max = 0.6 #max(x)
+        y_min = -0.4 #min(y)
+        y_max = 0.4 #max(y)
 
         #target grid to interpolate to
         xi = np.arange(x_min,x_max,0.002)
@@ -90,7 +91,7 @@ def dfScan():
         print('4', timer()-start)
 
         # interpolate
-        zi = griddata((x,y),z,(xi,yi),method='linear',fill_value=0)
+        zi = griddata((x,y),z,(xi,yi),method='linear',fill_value=0.6)
     	#zi = np.nan_to_num(zi,copy=False)
         print('5', timer()-start)
         ## set mask
@@ -106,10 +107,10 @@ def dfScan():
         zi = [i * 1000 for i in zi]
 
         # construct docofossor dimension list
-        nc = xres #len(zi[0]) >>> see target grid in scangrid
-        nr = yres #len(zi) >>> see target grid in scangrid
-        ox = 0
-        oy = 0
+        nc = 600 #len(zi[0]) >>> see target grid in scangrid
+        nr = 400 #len(zi) >>> see target grid in scangrid
+        ox = -585
+        oy = 390
         cx = 2 #1*n
         cy = 2 #1*n
         gx = ox
