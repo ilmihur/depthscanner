@@ -105,8 +105,8 @@ def dfScan():
         zi = [i * 1000 for i in zi]
 
         ## flip etc..
-        zi = zi[::-1]
-        zi *= -1
+        ## zi = zi[::-1]
+        ## zi *= -1
         
         # construct docofossor dimension list
         nc = 600 #len(zi[0]) >>> see target grid in scangrid
