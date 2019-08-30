@@ -5,7 +5,7 @@ import numpy as np
 from scipy.interpolate import griddata
 from timeit import default_timer as timer
 
-#here start the scanner
+# Start the scanner here
 # Declare RealSense pipeline, encapsulating the actual device and sensors
 
 _pipe = None
@@ -21,7 +21,9 @@ def dfScan():
     #def dfScan(some_param):
     #print(some_param)
 
-    start = timer()
+    ## Timer Setup:
+    ## start = timer()
+    ## print('1',timer()-start)
 
     # set the resolution
     xres = 640
@@ -39,11 +41,10 @@ def dfScan():
     #Start streaming 
     profile = pipe.start(config)
 
-    ## to figgure out the depth scale, normally 0.001
+    ## to figure out the depth scale, normally 0.001
     #depth_sensor = profile.get_device().first_depth_sensor()
     #print depth_sensor.get_depth_scale()
 
-    
     try:
         # Wait for the next set of frames from the camera
         frames = pipe.wait_for_frames()
@@ -56,17 +57,13 @@ def dfScan():
         
         # get point coordinates
         pts = np.asanyarray(points.get_vertices())
-        print('1',timer()-start)
-        ## take only values that are not zero
-        
+
         ## numpy nonzero 
         ptss = []
         for i in pts:
             if i[0] != 0:
                 ptss.append(i)
-
-        print('2',timer()-start)
-     
+    
         ## make x,y,z lists
         x = []
         y = []
@@ -75,7 +72,6 @@ def dfScan():
             x.append(i[0])
             y.append(i[1])
             z.append(i[2])
-        print('3', timer()-start)
         
         #bounding box of scan
         x_min = -0.6 #min(x)
@@ -88,26 +84,21 @@ def dfScan():
         yi = np.arange(y_min,y_max,0.002)
         xi,yi = np.meshgrid(xi,yi)
              
-        print('4', timer()-start)
-
         # interpolate
-        zi = griddata((x,y),z,(xi,yi),method='cubic',fill_value=0.6)
+        zi = griddata((x,y),z,(xi,yi),method='cubic',fill_value=0)
     	#zi = np.nan_to_num(zi,copy=False)
-        print('5', timer()-start)
-        ## set mask
-        #mask = (xi > 0.5) & (xi < 0.6) & (yi > 0.5) & (yi < 0.6)
 
-        ## mask out the field
+        # set mask
+        #mask = (xi > 0.5) & (xi < 0.6) & (yi > 0.5) & (yi < 0.6)
         #zi[mask] = np.nan
 
-        ## reformat z data to docofossor (single list of z values)
-        zi = [j for i in zi for j in i]
-        zi = [i * 1000 for i in zi]
-
-        ## flip etc..
-        ## zi = zi[::-1]
-        ## zi *= -1
+        # flip, reverse, scale and move data (in the case where the sensor is looking top-down)
+        zi = zi * -1000 + 1000
+        zi_oriented = np.fliplr(zi)
         
+        # reformat z data to docofossor (single list of z values)
+        lz = [j for i in zi_oriented for j in i]
+      
         # construct docofossor dimension list
         nc = 600 #len(zi[0]) >>> see target grid in scangrid
         nr = 400 #len(zi) >>> see target grid in scangrid
@@ -120,17 +111,8 @@ def dfScan():
         dim = [nc,nr,ox,oy,cx,cy,0,0,gx,gy]
         
         # construct df list
-        df = dim + zi
+        df = dim + lz
 
-        #trying to send a string to grasshopper instead of a list
-        #df = ' '.join("%.2f" % i for i in df)
-
-        # CONVERT TO base64
-        #import base64 >>
-        # otherwise png
-        
-        
-        print('6', timer()-start)
         # values to return to rhino
         return df
 
