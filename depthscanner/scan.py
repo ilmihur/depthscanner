@@ -91,7 +91,7 @@ def dfScan():
         print('4', timer()-start)
 
         # interpolate
-        zi = griddata((x,y),z,(xi,yi),method='linear',fill_value=0.6)
+        zi = griddata((x,y),z,(xi,yi),method='cubic',fill_value=0.6)
     	#zi = np.nan_to_num(zi,copy=False)
         print('5', timer()-start)
         ## set mask
@@ -101,11 +101,13 @@ def dfScan():
         #zi[mask] = np.nan
 
         ## reformat z data to docofossor (single list of z values)
-        np.flipud(zi)
-        zi *= -1
         zi = [j for i in zi for j in i]
         zi = [i * 1000 for i in zi]
 
+        ## flip etc..
+        zi = zi[::-1]
+        zi *= -1
+        
         # construct docofossor dimension list
         nc = 600 #len(zi[0]) >>> see target grid in scangrid
         nr = 400 #len(zi) >>> see target grid in scangrid
