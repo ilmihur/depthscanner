@@ -26,8 +26,8 @@ def dfScan():
     ## print('1',timer()-start)
 
     # set the resolution
-    xres = 640
-    yres = 360
+    xres = 1280
+    yres = 740
     
     # Declare pointcloud object, for calculating pointclouds and texture mappings
     pc = pyrs.pointcloud()
@@ -37,9 +37,11 @@ def dfScan():
     # Create a config and configure the pipeline to stream
     config = pyrs.config()
     #set resolution
-    config.enable_stream(pyrs.stream.depth, xres, yres, pyrs.format.z16, 30)
+    ## config.enable_stream(pyrs.stream.depth, xres, yres, pyrs.format.z16, 30)
     #Start streaming 
-    profile = pipe.start(config)
+    
+    #profile = pipe.start(config)
+    profile = pipe.start()
 
     ## to figure out the depth scale, normally 0.001
     #depth_sensor = profile.get_device().first_depth_sensor()
@@ -85,7 +87,7 @@ def dfScan():
         xi,yi = np.meshgrid(xi,yi)
              
         # interpolate
-        zi = griddata((x,y),z,(xi,yi),method='cubic',fill_value=0)
+        zi = griddata((x,y),z,(xi,yi),method='cubic',fill_value=1)
     	#zi = np.nan_to_num(zi,copy=False)
 
         # set mask
@@ -93,7 +95,11 @@ def dfScan():
         #zi[mask] = np.nan
 
         # flip, reverse, scale and move data (in the case where the sensor is looking top-down)
-        zi = zi * -1000 + 1000
+        zi = zi * -1000 
+
+        # ADJUST Z-LEVEL
+        zi = zi - 25
+
         zi_oriented = np.fliplr(zi)
         
         # reformat z data to docofossor (single list of z values)
