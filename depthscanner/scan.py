@@ -23,8 +23,7 @@ def dfScan():
 
     ## Timer Setup:
     start = timer()
-    print('1',timer()-start)
-    print('starting',timer()-start)
+    print('Scanning..')
 
     # set the resolution
     xres = 1280
@@ -38,11 +37,11 @@ def dfScan():
     # Create a config and configure the pipeline to stream
     config = pyrs.config()
     #set resolution
-    config.enable_stream(pyrs.stream.depth, xres, yres, pyrs.format.z16, 30)
+    #config.enable_stream(pyrs.stream.depth, xres, yres, pyrs.format.z16, 30)
     #Start streaming 
     
+    profile = pipe.start()
     #profile = pipe.start(config)
-    profile = pipe.start(config)
 
     ## to figure out the depth scale, normally 0.001
     #depth_sensor = profile.get_device().first_depth_sensor()
@@ -61,7 +60,7 @@ def dfScan():
         # get point coordinates
         pts = np.asanyarray(points.get_vertices())
 
-        print('points aquired',timer()-start)
+        print('Points aquired..')
 
         ## numpy nonzero 
         ptss = []
@@ -78,24 +77,25 @@ def dfScan():
             y.append(i[1])
             z.append(i[2])
 
-        print('NUMBER OF POINTS: ', len(z))
+        print(f"NUMBER OF POINTS:")
+        print(len(z))
         
         #bounding box of scan
         x_min = -0.6 #min(x)
         x_max = 0.6 #max(x)
-        y_min = -0.4 #min(y)
-        y_max = 0.4 #max(y)
+        y_min = -0.3 #min(y)
+        y_max = 0.3 #max(y)
 
         #target grid to interpolate to
-        xi = np.arange(x_min,x_max,0.004)
-        yi = np.arange(y_min,y_max,0.004)
+        xi = np.arange(x_min,x_max,0.002)
+        yi = np.arange(y_min,y_max,0.002)
         xi,yi = np.meshgrid(xi,yi)
              
         # interpolate
         zi = griddata((x,y),z,(xi,yi),method='linear',fill_value=1)
     	#zi = np.nan_to_num(zi,copy=False)
 
-        print('interpolated',timer()-start)
+        print('Points interpolated.')
 
         # set mask
         #mask = (xi > 0.5) & (xi < 0.6) & (yi > 0.5) & (yi < 0.6)
@@ -105,7 +105,7 @@ def dfScan():
         zi = zi * -1000 
 
         # ADJUST Z-LEVEL
-        zi = zi - 25
+        zi = zi # zi - 100
 
         zi_oriented = np.fliplr(zi)
         
@@ -113,12 +113,12 @@ def dfScan():
         lz = [j for i in zi_oriented for j in i]
       
         # construct docofossor dimension list
-        nc = 300 #len(zi[0]) >>> see target grid in scangrid
-        nr = 200 #len(zi) >>> see target grid in scangrid
-        ox = -585
-        oy = 390
-        cx = 4 #1*n
-        cy = 4 #1*n
+        nc = 600 #len(zi[0]) >>> see target grid in scangrid
+        nr = 300 #len(zi) >>> see target grid in scangrid
+        ox = 0
+        oy = 0
+        cx = 2 #1*n
+        cy = 2 #1*n
         gx = ox
         gy = oy
         dim = [nc,nr,ox,oy,cx,cy,0,0,gx,gy]
@@ -127,14 +127,11 @@ def dfScan():
         df = dim + lz
 
         # values to return to rhino
-
-        print('done',timer()-start)
-        print('GRID POINTS: ', len(lz))
-
         return df
 
     finally:  ### dont stop it
         pipe.stop()
+        print("Scan Completed")
 
 def pcScan(): 
 
@@ -164,7 +161,7 @@ def pcScan():
                 ptss.append(r)
         #return the list of vertices to rhino
         print(pts[0])
-        print(ptss[0])
+        #print(ptss[0])
         return ptss
        
     finally:
