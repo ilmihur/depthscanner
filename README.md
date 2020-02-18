@@ -25,6 +25,7 @@ Once you have Anaconda installed, open `Anaconda Prompt` as administrator. First
     
 Now install `COMPAS` and the `pyrealsense2` libraries to interface with the Intel Realsense Depth Camera (note: numpy and scipy will be automatically installed as well): 
 
+    $ conda config --add channels conda-forge
     $ conda install COMPAS
     $ pyhton -m compas_rhino.install -v 6.0
     $ pip install pyrealsense2
