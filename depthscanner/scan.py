@@ -103,18 +103,20 @@ def dfScan():
 
         # flip, reverse, scale and move data (in the case where the sensor is looking top-down)
         zi = zi * -1000 
-
+` `
         # ADJUST Z-LEVEL
         zi = zi # zi - 100
 
         zi_oriented = np.fliplr(zi)
+        zi_rot = np.rot90(zi_oriented) 
+        # zi_rot = np.rot90(zi_oriented, 3)
         
         # reformat z data to docofossor (single list of z values)
-        lz = [j for i in zi_oriented for j in i]
+        lz = [j for i in zi_rot for j in i]
       
         # construct docofossor dimension list
-        nc = 600 #len(zi[0]) >>> see target grid in scangrid
-        nr = 300 #len(zi) >>> see target grid in scangrid
+        nc = 300 #len(zi[0]) >>> see target grid in scangrid
+        nr = 600 #len(zi) >>> see target grid in scangrid
         ox = 0
         oy = 0
         cx = 2 #1*n
