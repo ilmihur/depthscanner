@@ -77,18 +77,18 @@ def dfScan():
             y.append(i[1])
             z.append(i[2])
 
-        print(f"NUMBER OF POINTS:")
+        print("NUMBER OF POINTS:")
         print(len(z))
         
         #bounding box of scan
-        x_min = -0.6 #min(x)
-        x_max = 0.6 #max(x)
-        y_min = -0.3 #min(y)
-        y_max = 0.3 #max(y)
+        x_min = -0.5 #min(x)
+        x_max = 0.5 #max(x)
+        y_min = -0.30 #min(y)
+        y_max = 0.30 #max(y)
 
         #target grid to interpolate to
-        xi = np.arange(x_min,x_max,0.002)
-        yi = np.arange(y_min,y_max,0.002)
+        xi = np.arange(x_min,x_max,0.004)
+        yi = np.arange(y_min,y_max,0.004)
         xi,yi = np.meshgrid(xi,yi)
              
         # interpolate
@@ -103,24 +103,24 @@ def dfScan():
 
         # flip, reverse, scale and move data (in the case where the sensor is looking top-down)
         zi = zi * -1000 
-` `
+        
         # ADJUST Z-LEVEL
-        zi = zi # zi - 100
+        zi += 860
 
-        zi_oriented = np.fliplr(zi)
-        zi_rot = np.rot90(zi_oriented) 
+        zi_oriented = np.flipud(zi)
+        #zi_rot = np.rot180(zi_oriented) 
         # zi_rot = np.rot90(zi_oriented, 3)
         
         # reformat z data to docofossor (single list of z values)
-        lz = [j for i in zi_rot for j in i]
+        lz = [j for i in zi_oriented for j in i]
       
         # construct docofossor dimension list
-        nc = 300 #len(zi[0]) >>> see target grid in scangrid
-        nr = 600 #len(zi) >>> see target grid in scangrid
-        ox = 0
-        oy = 0
-        cx = 2 #1*n
-        cy = 2 #1*n
+        nc = 250 #len(zi[0]) >>> see target grid in scangrid
+        nr = 150 #len(zi) >>> see target grid in scangrid
+        ox = -515
+        oy = -805
+        cx = 4 #1*n
+        cy = 4 #1*n
         gx = ox
         gy = oy
         dim = [nc,nr,ox,oy,cx,cy,0,0,gx,gy]
