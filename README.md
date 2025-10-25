@@ -1,4 +1,4 @@
-# Depthscanner
+# relief_reader
 Imports a Docofossor terrain map from an Intel Realsense Depth Camera using Rhino Grasshopper.
 
 > [!WARNING]  
