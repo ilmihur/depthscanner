@@ -1,5 +1,5 @@
 # Depthscanner
-Imports 3D points from an Intel Realsense Depth Camera into Rhino Grasshopper.
+Imports a Docofossor terrain map from an Intel Realsense Depth Camera using Rhino Grasshopper.
 
 > [!WARNING]  
 > This code is not maintained anymore.
@@ -9,6 +9,8 @@ Imports 3D points from an Intel Realsense Depth Camera into Rhino Grasshopper.
 - pyrealsense2 (python version 2.7)
 - numpy
 - scipy
+- Rhino Grasshopper
+- Docofossor [Link](https://github.com/ilmihur/docofossor)
 
 ## Author
 
