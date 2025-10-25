@@ -1,6 +1,9 @@
 # Depthscanner
 Imports 3D points from an Intel Realsense Depth Camera into Rhino Grasshopper.
 
+> [!WARNING]  
+> This code is EOL.
+
 ## Dependencies
 - compas
 - pyrealsense2 (python version 2.7)
@@ -9,7 +12,7 @@ Imports 3D points from an Intel Realsense Depth Camera into Rhino Grasshopper.
 
 ## Author
 
-Ilmar Hurkxkens <<hurkxkens@arch.ethz.ch>> [@ilmihur](https://github.com/ilmihur/)
+Ilmar Hurkxkens <<i.u.hurkxkens@tudelft.nl>> [@ilmihur](https://github.com/ilmihur/)
 
 ## Getting Started
 
