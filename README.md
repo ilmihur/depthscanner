@@ -2,7 +2,7 @@
 Imports 3D points from an Intel Realsense Depth Camera into Rhino Grasshopper.
 
 > [!WARNING]  
-> This code is EOL.
+> This code is not maintained anymore.
 
 ## Dependencies
 - compas
